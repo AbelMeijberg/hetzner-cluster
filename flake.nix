@@ -44,11 +44,12 @@
             hetzner-k3s
             pkgs.kubectl
             pkgs.k9s
+            pkgs.kubernetes-helm
           ];
 
           shellHook = ''
             echo "Hetzner cluster dev environment loaded"
-            echo "Tools: hetzner-k3s, kubectl, k9s"
+            echo "Tools: hetzner-k3s, kubectl, k9s, helm"
           '';
         };
       });
