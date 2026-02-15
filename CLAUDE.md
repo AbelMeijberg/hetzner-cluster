@@ -88,8 +88,9 @@ kubectl get applications -n argocd
 ## Conventions
 
 - All ArgoCD apps use `automated` sync policy with `prune: true` and `selfHeal: true`
-- Helm chart versions use semver wildcards (e.g., `7.*`, `2.0.*`) for minor/patch auto-updates
+- Helm chart versions are pinned to exact versions (e.g., `7.9.1`, `2.0.0`) — no wildcards
 - Resource requests/limits are tuned for a small cluster — keep them conservative
 - Helm apps use `ServerSideApply: true` and `CreateNamespace=true` sync options
 - Repository reference: `https://github.com/AbelMeijberg/hetzner-cluster` (used in Application CRDs `repoURL`)
 - Target revision: `master` branch
+- **Never git commit directly** — always prompt the user to commit themselves
