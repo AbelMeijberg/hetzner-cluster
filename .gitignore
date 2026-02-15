@@ -2,3 +2,4 @@ kubeconfig
 .claude
 .env
 .direnv
+1password-credentials.json
