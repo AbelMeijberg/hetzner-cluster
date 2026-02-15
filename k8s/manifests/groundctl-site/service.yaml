@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: groundctl-site
+  namespace: groundctl-site
+spec:
+  type: ClusterIP
+  selector:
+    app: groundctl-site
+  ports:
+    - port: 80
+      targetPort: 8080
