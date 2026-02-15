@@ -1,0 +1,11 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    service:
+      annotations:
+        load-balancer.hetzner.cloud/location: nbg1
+        load-balancer.hetzner.cloud/node-selector: "!node-role.kubernetes.io/control-plane"
