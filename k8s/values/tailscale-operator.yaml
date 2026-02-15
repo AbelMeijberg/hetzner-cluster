@@ -1,0 +1,16 @@
+oauth:
+  clientId: ""
+  clientSecret: ""
+
+operatorConfig:
+  defaultTags:
+    - "tag:k8s-operator"
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+
+proxyConfig:
+  defaultTags: "tag:k8s-operator"

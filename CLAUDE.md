@@ -18,6 +18,7 @@ k8s/root-app.yaml (root app-of-apps)
     ├── argocd.yaml              (self-managing, Helm)
     ├── external-secrets.yaml    (Helm)
     ├── onepassword-connect.yaml (Helm)
+    ├── tailscale-operator.yaml  (Helm + raw manifests)
     └── cluster-secret-store.yaml (raw manifests)
 ```
 

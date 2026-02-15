@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale-operator
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://pkgs.tailscale.com/helmcharts
+      chart: tailscale-operator
+      targetRevision: "1.94.2"
+      helm:
+        valueFiles:
+          - $values/k8s/values/tailscale-operator.yaml
+    - repoURL: https://github.com/AbelMeijberg/hetzner-cluster.git
+      targetRevision: HEAD
+      ref: values
+    - repoURL: https://github.com/AbelMeijberg/hetzner-cluster.git
+      targetRevision: HEAD
+      path: k8s/manifests/tailscale-operator
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tailscale
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
