@@ -1,0 +1,71 @@
+postgresql:
+  enabled: false
+
+service:
+  http:
+    type: ClusterIP
+    port: 3000
+    annotations:
+      tailscale.com/expose: "true"
+      tailscale.com/hostname: "forgejo"
+  ssh:
+    type: ClusterIP
+    port: 22
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+  size: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  annotations:
+    helm.sh/resource-policy: keep
+
+gitea:
+  admin:
+    existingSecret: forgejo-admin
+    username: forgejo_admin
+    email: admin@local.domain
+  config:
+    server:
+      DOMAIN: forgejo
+      ROOT_URL: http://forgejo:3000/
+      LFS_START_SERVER: true
+    database:
+      DB_TYPE: postgres
+      HOST: forgejo-pg-rw:5432
+      NAME: forgejo
+      USER: forgejo
+      SSL_MODE: disable
+    session:
+      PROVIDER: memory
+    cache:
+      ADAPTER: memory
+    indexer:
+      REPO_INDEXER_ENABLED: true
+    service:
+      DISABLE_REGISTRATION: true
+    mailer:
+      ENABLED: false
+    actions:
+      ENABLED: false
+  additionalConfigFromEnvs:
+    - name: FORGEJO__DATABASE__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: forgejo-db-credentials
+          key: password
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+deployment:
+  env:
+    - name: FORGEJO__security__INSTALL_LOCK
+      value: "true"

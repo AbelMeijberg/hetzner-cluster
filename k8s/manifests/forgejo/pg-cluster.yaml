@@ -1,0 +1,26 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: forgejo-pg
+  namespace: forgejo
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: forgejo
+      owner: forgejo
+      secret:
+        name: forgejo-db-credentials
+  storage:
+    size: 10Gi
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+  postgresql:
+    parameters:
+      shared_buffers: "128MB"
+      effective_cache_size: "256MB"
+      work_mem: "8MB"
