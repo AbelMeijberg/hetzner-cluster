@@ -13,4 +13,4 @@ operatorConfig:
       memory: 128Mi
 
 proxyConfig:
-  defaultTags: "tag:k8s-operator"
+  defaultTags: "tag:k8s"
