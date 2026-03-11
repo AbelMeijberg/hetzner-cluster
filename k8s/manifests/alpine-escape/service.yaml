@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alpine-escape
+  namespace: alpine-escape
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "alpine-escape"
+spec:
+  type: ClusterIP
+  selector:
+    app: alpine-escape
+  ports:
+    - port: 80
+      targetPort: 8080

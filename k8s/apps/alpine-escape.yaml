@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alpine-escape
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: site=ghcr.io/abelmeijberg/alpine-escape
+    argocd-image-updater.argoproj.io/site.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/site.allow-tags: "regexp:^sha-"
+    argocd-image-updater.argoproj.io/site.pull-secret: argocd/ghcr-pull-secret
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AbelMeijberg/hetzner-cluster.git
+    targetRevision: HEAD
+    path: k8s/manifests/alpine-escape
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: alpine-escape
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
