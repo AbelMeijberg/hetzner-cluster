@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angine-site
+  namespace: angine-site
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angine-site
+  template:
+    metadata:
+      labels:
+        app: angine-site
+    spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      containers:
+        - name: angine-site
+          image: ghcr.io/abelmeijberg/angine-site:latest
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi

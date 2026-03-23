@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: angine-site
+  namespace: angine-site
+spec:
+  type: ClusterIP
+  selector:
+    app: angine-site
+  ports:
+    - port: 80
+      targetPort: 80

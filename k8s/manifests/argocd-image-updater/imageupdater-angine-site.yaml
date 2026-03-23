@@ -1,0 +1,16 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: angine-site
+  namespace: argocd
+spec:
+  namespace: argocd
+  applicationRefs:
+    - namePattern: angine-site
+      images:
+        - alias: site
+          imageName: ghcr.io/abelmeijberg/angine-site
+          commonUpdateSettings:
+            updateStrategy: newest-build
+            allowTags: "regexp:^sha-"
+            pullSecret: pullsecret:argocd/ghcr-pull-secret

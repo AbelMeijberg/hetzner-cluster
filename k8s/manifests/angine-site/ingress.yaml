@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: angine-site
+  namespace: angine-site
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - secretName: angine-site-tls
+      hosts:
+        - angine.groundctl.dev
+  rules:
+    - host: angine.groundctl.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: angine-site
+                port:
+                  number: 80
