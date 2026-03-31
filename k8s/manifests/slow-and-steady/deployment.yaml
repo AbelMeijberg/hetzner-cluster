@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slow-and-steady
+  namespace: slow-and-steady
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slow-and-steady
+  template:
+    metadata:
+      labels:
+        app: slow-and-steady
+    spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      containers:
+        - name: slow-and-steady
+          image: ghcr.io/lottelutkenhaus/slow-and-steady-website:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NEON_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: slownsteady-neon-secret
+                  key: url
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi

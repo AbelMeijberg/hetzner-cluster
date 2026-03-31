@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: slow-and-steady
+  namespace: slow-and-steady
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "slow-and-steady"
+spec:
+  type: ClusterIP
+  selector:
+    app: slow-and-steady
+  ports:
+    - port: 80
+      targetPort: 8080
