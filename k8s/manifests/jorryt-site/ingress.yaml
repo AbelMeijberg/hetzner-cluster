@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jorryt-site
+  namespace: jorryt-site
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - secretName: jorryt-site-tls
+      hosts:
+        - antwerpen.groundctl.dev
+  rules:
+    - host: antwerpen.groundctl.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jorryt-site
+                port:
+                  number: 80
