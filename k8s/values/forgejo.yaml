@@ -13,19 +13,7 @@ service:
     port: 22
 
 ingress:
-  enabled: true
-  className: traefik
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-  hosts:
-    - host: forgejo.groundctl.dev
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: forgejo-tls
-      hosts:
-        - forgejo.groundctl.dev
+  enabled: false
 
 persistence:
   enabled: true

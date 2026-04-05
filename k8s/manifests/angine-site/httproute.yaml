@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: angine-site
+  namespace: angine-site
+spec:
+  parentRefs:
+    - name: main-gateway
+      namespace: gateway
+      sectionName: angine-groundctl-dev
+  rules:
+    - backendRefs:
+        - name: angine-site
+          port: 80

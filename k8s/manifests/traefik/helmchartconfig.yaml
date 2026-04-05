@@ -9,3 +9,6 @@ spec:
       annotations:
         load-balancer.hetzner.cloud/location: nbg1
         load-balancer.hetzner.cloud/node-selector: "!node-role.kubernetes.io/control-plane"
+    providers:
+      kubernetesGateway:
+        enabled: true
