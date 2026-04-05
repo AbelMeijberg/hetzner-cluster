@@ -5,10 +5,19 @@ metadata:
   namespace: jorryt-site
 spec:
   parentRefs:
-    - name: main-gateway
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: main-gateway
       namespace: gateway
       sectionName: antwerpen-groundctl-dev
   rules:
-    - backendRefs:
-        - name: jorryt-site
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: jorryt-site
           port: 80
+          weight: 1

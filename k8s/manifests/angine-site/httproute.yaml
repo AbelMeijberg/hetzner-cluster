@@ -5,10 +5,19 @@ metadata:
   namespace: angine-site
 spec:
   parentRefs:
-    - name: main-gateway
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: main-gateway
       namespace: gateway
       sectionName: angine-groundctl-dev
   rules:
-    - backendRefs:
-        - name: angine-site
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: angine-site
           port: 80
+          weight: 1

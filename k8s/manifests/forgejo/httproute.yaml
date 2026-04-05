@@ -5,10 +5,19 @@ metadata:
   namespace: forgejo
 spec:
   parentRefs:
-    - name: main-gateway
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: main-gateway
       namespace: gateway
       sectionName: forgejo-groundctl-dev
   rules:
-    - backendRefs:
-        - name: forgejo-http
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: forgejo-http
           port: 3000
+          weight: 1
