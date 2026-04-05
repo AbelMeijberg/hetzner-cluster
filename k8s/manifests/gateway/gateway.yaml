@@ -1,0 +1,78 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: main-gateway
+  namespace: gateway
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  gatewayClassName: traefik
+  listeners:
+    # HTTP listener for ACME challenges
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    # HTTPS listeners per hostname
+    - name: groundctl-dev
+      protocol: HTTPS
+      port: 443
+      hostname: groundctl.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: groundctl-site-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: www-groundctl-dev
+      protocol: HTTPS
+      port: 443
+      hostname: www.groundctl.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: www-groundctl-site-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: antwerpen-groundctl-dev
+      protocol: HTTPS
+      port: 443
+      hostname: antwerpen.groundctl.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: jorryt-site-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: angine-groundctl-dev
+      protocol: HTTPS
+      port: 443
+      hostname: angine.groundctl.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: angine-site-tls
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: forgejo-groundctl-dev
+      protocol: HTTPS
+      port: 443
+      hostname: forgejo.groundctl.dev
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: forgejo-tls
+      allowedRoutes:
+        namespaces:
+          from: All
